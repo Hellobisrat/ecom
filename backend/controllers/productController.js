@@ -79,14 +79,11 @@ const fetchProducts = asyncHandler(async(req,res)=>{
     : {};
     const count = await Product.countDocuments({...keyword})
     const products = await Product.find({...keyword}).limit(pageSize)
-
     res.json({
       products,
       page:1, 
       pages:Math.ceil(count/pageSize),
-      hasMore:false})
-     
-    
+      hasMore:false})  
   } catch (error) {
    res.status(500).json(error.message)
      
@@ -95,10 +92,7 @@ const fetchProducts = asyncHandler(async(req,res)=>{
 
 const fetchProductById = asyncHandler(async(req,res)=>{
   try {
-    
-   
     const product = await Product.findById(req.params.id)
-
     if(product){
       res.json(
       product
@@ -187,7 +181,7 @@ const fetchTopProducts =asyncHandler(async(req,res)=>{
 
 const fetchNewProducts = asyncHandler(async(req,res)=>{
   try {
-   const products = await Product.find({}).sort({rating:-1}).limit(4)
+   const products = await Product.find({}).sort({createdAt: -1 }).limit(4)
    res.status(200).json(products) 
   } catch (error) {
      res.status(500).json({error:"Server Error"})
